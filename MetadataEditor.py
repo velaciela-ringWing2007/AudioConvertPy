@@ -1,7 +1,7 @@
 import os
 from tkinter import Tk, Label, Entry, Button, filedialog
 from mutagen.easyid3 import EasyID3
-
+from tkinter import messagebox  # messageboxをインポート
 
 class MetadataEditor:
     def __init__(self, root):
@@ -37,13 +37,21 @@ class MetadataEditor:
                 self.entries[field].delete(0, 'end')
                 self.entries[field].insert(0, audio.get(field, [''])[0])
 
+
+
     def save_metadata(self):
         if self.file_path:
-            audio = EasyID3(self.file_path)
-            for field, entry in self.entries.items():
-                audio[field] = entry.get()
-            audio.save()
-            print("Metadata saved.")
+            try:
+                audio = EasyID3(self.file_path)
+                for field, entry in self.entries.items():
+                    audio[field] = entry.get()
+                # ここで各メタデータフィールドの値を設定
+                audio.save()
+                messagebox.showinfo("Success", "Metadata saved successfully.")  # 成功ダイアログを表示
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to save metadata: {e}")  # エラーダイアログを表示
+        else:
+            messagebox.showwarning("Warning", "No file loaded.")  # 警告ダイアログを表示
 
 
 if __name__ == "__main__":
