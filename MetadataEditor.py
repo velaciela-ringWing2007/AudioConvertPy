@@ -1,9 +1,13 @@
-import os
 from tkinter import Tk, Label, Entry, Button, filedialog
-from mutagen.easyid3 import EasyID3
 from tkinter import messagebox  # messageboxをインポート
 
+from mutagen.easyid3 import EasyID3
+
+
 class MetadataEditor:
+    """
+    MP3 Metadata Editor is a Python-based GUI application that allows users to edit the metadata of MP3 files. Using the `mutagen.easyid3` library, it supports editing common metadata fields such as title, artist, album, track number, genre, and date. The application provides a user-friendly interface to load an MP3 file, view and edit its metadata, and save the changes.
+    """
     def __init__(self, root):
         self.root = root
         self.root.geometry("600x600")  # ウィンドウサイズを調整
@@ -36,8 +40,6 @@ class MetadataEditor:
             for field in self.metadata_fields:
                 self.entries[field].delete(0, 'end')
                 self.entries[field].insert(0, audio.get(field, [''])[0])
-
-
 
     def save_metadata(self):
         if self.file_path:
